@@ -1,0 +1,7 @@
+{
+  "name": "DermaIA: Asistente Dermatológico",
+  "description": "Una aplicación web que utiliza IA para analizar imágenes de la piel y proporcionar información orientativa sobre posibles afecciones, tratamientos sugeridos y consecuencias. No reemplaza el diagnóstico médico profesional.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
