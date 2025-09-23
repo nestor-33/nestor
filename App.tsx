@@ -51,10 +51,10 @@ const App: React.FC = () => {
         setAppState(prev => ({ ...prev, currentView: View.MAIN, currentAnalysis: null, error: null }));
     };
 
-    const handleAnalysis = useCallback(async (imageBase64: string, mimeType: string) => {
+    const handleAnalysis = useCallback(async (imageBase64: string, mimeType: string, symptoms: string) => {
         setAppState(prev => ({ ...prev, isLoading: true, error: null }));
         try {
-            const result = await analyzeSkinImage(imageBase64, mimeType);
+            const result = await analyzeSkinImage(imageBase64, mimeType, symptoms);
             setAppState(prev => ({
                 ...prev,
                 isLoading: false,

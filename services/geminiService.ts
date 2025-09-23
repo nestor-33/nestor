@@ -54,17 +54,20 @@ const responseSchema = {
 };
 
 
-export const analyzeSkinImage = async (imageBase64: string, mimeType: string): Promise<AnalysisResult> => {
+export const analyzeSkinImage = async (imageBase64: string, mimeType: string, symptoms: string): Promise<AnalysisResult> => {
     try {
-        const prompt = `
-Eres un asistente dermatológico de IA llamado DermaIA. Tu propósito es proporcionar un análisis orientativo y educativo sobre afecciones de la piel basado en una imagen. NO ERES UN SUSTITUTO DE UN MÉDICO PROFESIONAL.
+        let prompt = `
+Eres un asistente dermatológico de IA llamado DermaIA. Tu propósito es proporcionar un análisis orientativo y educativo sobre afecciones de la piel basado en una imagen y los síntomas descritos por el usuario. NO ERES UN SUSTITUTO DE UN MÉDICO PROFESIONAL.
 
 Analiza la siguiente imagen de la piel y proporciona una evaluación. Responde SIEMPRE en formato JSON estructurado.
 
-El JSON debe contener una clave "analisis" que es un array de objetos. Cada objeto representa una posible afección y debe tener las claves definidas en el schema.
+El JSON debe contener una clave "analisis" que es un array de objetos. Cada objeto representa una posible afección y debe tener las claves definidas en el schema.`;
 
-Si la imagen no es clara, está vacía, o no parece ser de piel humana, devuelve un JSON con una clave "error" y un mensaje explicativo claro para el usuario.
-`;
+        if (symptoms && symptoms.trim() !== '') {
+            prompt += `\n\nAdemás de la imagen, es crucial que consideres los siguientes síntomas descritos por el usuario para refinar tu análisis: "${symptoms}". Utiliza esta información para un diagnóstico más certero.`;
+        }
+
+        prompt += `\n\nSi la imagen no es clara, está vacía, o no parece ser de piel humana, devuelve un JSON con una clave "error" y un mensaje explicativo claro para el usuario.`;
 
         const imagePart = {
             inlineData: {
